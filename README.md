@@ -64,8 +64,8 @@ git clone https://www.github.com/jucor/torch-randomkit
 randomkit.ffi.*
 
 Functions directly accessible at the top of the randomkit table are Lua wrappers to the actual C functions from Randomkit, with extra error checking. If, for any reason, you want to get rid of this error checking and of a possible overhead, the FFI-wrapper functions can be called directly via randomkit.ffi.myfunction() instead of randomkit.myfunction().
-#List of distributions
-##beta
+# List of distributions
+## beta
 randomkit.beta([output], a, b)
 
 The Beta distribution over ``[0, 1]``.
