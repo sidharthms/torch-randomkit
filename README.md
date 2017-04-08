@@ -1,19 +1,19 @@
 [![Build Status](https://travis-ci.org/deepmind/torch-randomkit.svg?branch=master)](https://travis-ci.org/deepmind/torch-randomkit)
 
-#Randomkit random number generators, wrapped for Torch
+# Randomkit random number generators, wrapped for Torch
 
 Provides and wraps the Randomkit library, copied from Numpy. Please check-out its [website](http://deepmind.github.io/torch-randomkit) for up-to-date documentation or read below.
 
-##Example
+## Example
 
-###Single sample
+### Single sample
 
 You can call any of the wrapped functions with just the distribution's parameters to generate a single sample and return a number:
 
     require 'randomkit'
     randomkit.poisson(5)
 
-###Multiple samples from one distribution
+### Multiple samples from one distribution
 
 Often, you might want to generate many samples identically distributed. Simply pass as a first argument a tensor of the proper dimension, into which the samples will be stored:
 
@@ -24,7 +24,7 @@ The sampler returns the tensor, so you can shorten the above in:
 
     x = randomkit.poisson(torch.Tensor(10000), 5)
 
-###Multiple samples from multiple distributions
+### Multiple samples from multiple distributions
 
 Finally, you might want to generate many samples, each from a distribution with different parameters. This is achieved by passing a Tensor as the parameter of the distribution:
 
@@ -39,19 +39,19 @@ Of course, this can be combined with passing a result Tensor as an optional firs
 
 Note: in the latter case, the size of the result Tensor must correspond to the size of the parameter tensor -- we do not resize the result tensor automatically, yet:
 
-###Getting/setting the seed and the state
+### Getting/setting the seed and the state
 
 Randomkit is transparently integrated with Torch's random stream: just use torch.manualSeed(seed), torch.getRNGState(), and torch.setRNGState(state) as usual.
 Specifying an (optional) torch.Generator instance as the first argument will only influence the state of that generator, leaving the state of randomkit unchanged.
 
-##Installation
+## Installation
 
 From a terminal:
 
     luarocks install randomkit
 
 
-##Unit Tests
+## Unit Tests
 
 Last but not least, the unit tests are in the folder
 luasrc/tests. You can run them from your local clone of the repository with:
@@ -59,7 +59,7 @@ git clone https://www.github.com/jucor/torch-randomkit
 
     find torch-randomkit/luasrc/tests -name "test*lua" -exec torch {} \;
 
-##Direct access to FFI
+## Direct access to FFI
 
 randomkit.ffi.*
 
@@ -84,7 +84,7 @@ $$ B(\alpha, \beta) = \int_0^1 t^{\alpha - 1}
 
 It is often seen in Bayesian inference and order statistics.
 
-####Parameters
+#### Parameters
 * a : float
 Alpha, non-negative.
 * b : float
@@ -93,12 +93,12 @@ Beta, non-negative.
 The number of samples to draw.  The output is packed according to
 the size given.
 
-####Returns
+#### Returns
 * out : ndarray
 Array of the given shape, containing values drawn from a
 Beta distribution.
 
-##binomial
+## binomial
 randomkit.binomial([output], n, p)
 
 Draw samples from a binomial distribution.
@@ -108,7 +108,7 @@ parameters, n trials and p probability of success where
 n an integer >= 0 and p is in the interval [0,1]. (n may be
 input as a float, but it is truncated to an integer in use)
 
-####Parameters
+#### Parameters
 * n : float (but truncated to an integer)
 parameter, >= 0.
 * p : float
@@ -117,15 +117,15 @@ parameter, >= 0 and <=1.
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * samples : {ndarray, scalar}
 where the values are all integers in  [0, n].
 
-####See Also
+#### See Also
 * scipy.stats.distributions.binom : probability density function,
 distribution or cumulative density function, etc.
 
-####Notes
+#### Notes
 The probability density for the Binomial distribution is
 
 $$ P(N) = \binom{n}{N}p^N(1-p)^{n-N},$$
@@ -141,7 +141,7 @@ instead. For example, a sample of 15 people shows 4 who are left
 handed, and 11 who are right handed. Then p = 4/15 = 27%. 0.27*15 = 4,
 so the binomial distribution should be used in this case.
 
-####References
+#### References
 1. Dalgaard, Peter, "Introductory Statistics with R",
 Springer-Verlag, 2002.
 2. Glantz, Stanton A. "Primer of Biostatistics.", McGraw-Hill,
@@ -154,7 +154,7 @@ http://mathworld.wolfram.com/BinomialDistribution.html
 5. Wikipedia, "Binomial-distribution",
 http://en.wikipedia.org/wiki/Binomial_distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ n, p = 10, .5  number of trials, probability of each trial
@@ -172,26 +172,26 @@ generate zero positive results.
 
 answer = 0.38885, or 38%.
 
-##bytes
+## bytes
 randomkit.bytes([output], length)
 
 Return random bytes.
 
-####Parameters
+#### Parameters
 * length : int
 Number of random bytes.
 
-####Returns
+#### Returns
 * out : str
 String of length `length`.
 
-####Examples
+#### Examples
 
      $ np.random.bytes(10)
 
 ' eh\x85\x022SZ\xbf\xa4' random
 
-##chisquare
+## chisquare
 randomkit.chisquare([output], df)
 
 Draw samples from a chi-square distribution.
@@ -201,24 +201,24 @@ distributions (mean 0, variance 1), are squared and summed, the
 resulting distribution is chi-square (see Notes).  This distribution
 is often used in hypothesis testing.
 
-####Parameters
+#### Parameters
 * df : int
 Number of degrees of freedom.
 * size : tuple of ints, int, optional
 Size of the returned array.  By default, a scalar is
 returned.
 
-####Returns
+#### Returns
 * output : ndarray
 Samples drawn from the distribution, packed in a `size`-shaped
 array.
 
-####Raises
+#### Raises
 ValueError
 When `df` <= 0 or when an inappropriate `size` (e.g. ``size=-1``)
 is given.
 
-####Notes
+#### Notes
 The variable obtained by summing the squares of `df` independent,
 standard normally distributed random variables:
 
@@ -237,16 +237,16 @@ where \\(\Gamma\\) is the gamma function,
 
 $$ \Gamma(x) = \int_0^{-\infty} t^{x - 1} e^{-t} dt.$$
 
-####References
+#### References
 1. NIST/SEMATECH e-Handbook of Statistical Methods, http://www.itl.nist.gov/div898/handbook/eda/section3/eda3666.htm
 
-####Examples
+#### Examples
 
      $ np.random.chisquare(2,4)
 
 array([ 1.89920014,  9.00867716,  3.13710533,  5.62318272])
 
-##dirichlet
+## dirichlet
 randomkit.dirichlet([output], alpha)
 
 Draw samples from the Dirichlet distribution.
@@ -256,18 +256,18 @@ Dirichlet-distributed random variable can be seen as a multivariate
 generalization of a Beta distribution. Dirichlet pdf is the conjugate
 prior of a multinomial in Bayesian inference.
 
-####Parameters
+#### Parameters
 * alpha : array
 Parameter of the distribution (k dimension for sample of
 dimension k).
 * size : array
 Number of samples to draw.
 
-####Returns
+#### Returns
 * samples : ndarray,
 The drawn samples, of shape (alpha.ndim, size).
 
-####Notes
+#### Notes
 $$ X \approx \prod_{i=1}^{k}{x^{\alpha_i-1}_i}$$
 
 Uses the following property for computation: for each dimension,
@@ -276,14 +276,14 @@ draw a random sample y_i from a standard gamma generator of shape
 \\(X = \frac{1}{\sum_{i=1}^k{y_i}} (y_1, \ldots, y_n)\\) is
 Dirichlet distributed.
 
-####References
+#### References
 1. David McKay, "Information Theory, Inference and Learning
 Algorithms," chapter 23,
 http://www.inference.phy.cam.ac.uk/mackay/
 2. Wikipedia, "Dirichlet distribution",
 http://en.wikipedia.org/wiki/Dirichlet_distribution
 
-####Examples
+#### Examples
 Taking an example cited in Wikipedia, this distribution can be used if
 one wanted to cut strings (each of initial length 1.0) into K pieces
 with different lengths, where each piece had, on average, a designated
@@ -298,7 +298,7 @@ pieces.
      $ plt.barh(range(20), s[2], left=s[0]+s[1], color='r')
      $ plt.title("Lengths of Strings")
 
-##exponential
+## exponential
 randomkit.exponential([output], scale)
 
 Exponential distribution.
@@ -317,14 +317,14 @@ geometric distribution.  It describes many common situations, such as
 the size of raindrops measured over many rainstorms [1], or the time
 between page requests to Wikipedia [2].
 
-####Parameters
+#### Parameters
 * scale : float
 The scale parameter, \\(\beta = 1/\lambda\\).
 * size : tuple of ints
 Number of samples to draw.  The output is shaped
 according to `size`.
 
-####References
+#### References
 1. Peyton Z. Peebles Jr., "Probability, Random Variables and
 Random Signal Principles", 4th ed, 2001, p. 57.
 2. "Poisson Process", Wikipedia,
@@ -332,7 +332,7 @@ http://en.wikipedia.org/wiki/Poisson_process
 3. "Exponential Distribution, Wikipedia,
 http://en.wikipedia.org/wiki/Exponential_distribution
 
-##f
+## f
 randomkit.f([output], dfnum, dfden)
 
 Draw samples from a F distribution.
@@ -346,7 +346,7 @@ Fisher distribution) is a continuous probability distribution
 that arises in ANOVA tests, and is the ratio of two chi-square
 variates.
 
-####Parameters
+#### Parameters
 * dfnum : float
 Degrees of freedom in numerator. Should be greater than zero.
 * dfden : float
@@ -356,15 +356,15 @@ Output shape.  If the given shape is, e.g., ``(m, n, k)``,
 then ``m * n * k`` samples are drawn. By default only one sample
 is returned.
 
-####Returns
+#### Returns
 * samples : {ndarray, scalar}
 Samples from the Fisher distribution.
 
-####See Also
+#### See Also
 * scipy.stats.distributions.f : probability density function,
 distribution or cumulative density function, etc.
 
-####Notes
+#### Notes
 The F statistic is used to compare in-group variances to between-group
 variances. Calculating the distribution depends on the sampling, and
 so it is a function of the respective degrees of freedom in the
@@ -373,13 +373,13 @@ between-groups degrees of freedom, while `dfden` is the within-groups
 degrees of freedom, the sum of the number of samples in each group
 minus the number of groups.
 
-####References
+#### References
 1. Glantz, Stanton A. "Primer of Biostatistics.", McGraw-Hill,
 Fifth Edition, 2002.
 2. Wikipedia, "F-distribution",
 http://en.wikipedia.org/wiki/F-distribution
 
-####Examples
+#### Examples
 An example from Glantz[1], pp 47-40.
 Two groups, children of diabetics (25 people) and children from people
 without diabetes (25 controls). Fasting blood glucose was measured,
@@ -406,7 +406,7 @@ So there is about a 1% chance that the F statistic will exceed 7.62,
 the measured value is 36, so the null hypothesis is rejected at the 1%
 level.
 
-##gamma
+## gamma
 randomkit.gamma([output], shape, scale)
 
 Draw samples from a Gamma distribution.
@@ -415,7 +415,7 @@ Samples are drawn from a Gamma distribution with specified parameters,
 `shape` (sometimes designated "k") and `scale` (sometimes designated
 "theta"), where both parameters are > 0.
 
-####Parameters
+#### Parameters
 * shape : scalar > 0
 The shape of the gamma distribution.
 * scale : scalar > 0, optional
@@ -424,15 +424,15 @@ The scale of the gamma distribution.  Default is equal to 1.
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * out : ndarray, float
 Returns one sample unless `size` parameter is specified.
 
-####See Also
+#### See Also
 * scipy.stats.distributions.gamma : probability density function,
 distribution or cumulative density function, etc.
 
-####Notes
+#### Notes
 The probability density for the Gamma distribution is
 
 $$ p(x) = x^{k-1}\frac{e^{-x/\theta}}{\theta^k\Gamma(k)},$$
@@ -444,14 +444,14 @@ The Gamma distribution is often used to model the times to failure of
 electronic components, and arises naturally in processes for which the
 waiting times between Poisson distributed events are relevant.
 
-####References
+#### References
 1. Weisstein, Eric W. "Gamma Distribution." From MathWorld--A
 Wolfram Web Resource.
 http://mathworld.wolfram.com/GammaDistribution.html
 2. Wikipedia, "Gamma-distribution",
 http://en.wikipedia.org/wiki/Gamma-distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ shape, scale = 2., 2.  mean and dispersion
@@ -469,7 +469,7 @@ the probability density function:
      $ plt.plot(bins, y, linewidth=2, color='r')
      $ plt.show()
 
-##geometric
+## geometric
 randomkit.geometric([output], p)
 
 Draw samples from the geometric distribution.
@@ -486,19 +486,19 @@ $$ f(k) = (1 - p)^{k - 1} p$$
 
 where `p` is the probability of success of an individual trial.
 
-####Parameters
+#### Parameters
 * p : float
 The probability of success of an individual trial.
 * size : tuple of ints
 Number of values to draw from the distribution.  The output
 is shaped according to `size`.
 
-####Returns
+#### Returns
 * out : ndarray
 Samples from the geometric distribution, shaped according to
 `size`.
 
-####Examples
+#### Examples
 Draw ten thousand values from the geometric distribution,
 with the probability of an individual success equal to 0.35:
 
@@ -511,7 +511,7 @@ How many trials succeeded after a single run?
 
 0.34889999999999999 random
 
-##gumbel
+## gumbel
 randomkit.gumbel([output], loc, scale)
 
 Gumbel distribution.
@@ -520,7 +520,7 @@ Draw samples from a Gumbel distribution with specified location and scale.
 For more information on the Gumbel distribution, see Notes and References
 below.
 
-####Parameters
+#### Parameters
 * loc : float
 The location of the mode of the distribution.
 * scale : float
@@ -529,11 +529,11 @@ The scale parameter of the distribution.
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * out : ndarray
 The samples
 
-####See Also
+#### See Also
 scipy.stats.gumbel_l
 scipy.stats.gumbel_r
 scipy.stats.genextreme
@@ -541,7 +541,7 @@ probability density function, distribution, or cumulative density
 function, etc. for each of the above
 weibull
 
-####Notes
+#### Notes
 The Gumbel (or Smallest Extreme Value (SEV) or the Smallest Extreme Value
 Type I) distribution is one of a class of Generalized Extreme Value (GEV)
 distributions used in modeling extreme value problems.  The Gumbel is a
@@ -573,7 +573,7 @@ Frechet.
 The function has a mean of \\(\mu + 0.57721\beta\\) and a variance of
 \\(\frac{\pi^2}{6}\beta^2\\).
 
-####References
+#### References
 Gumbel, E. J., *Statistics of Extremes*, New York: Columbia University
 Press, 1958.
 
@@ -581,7 +581,7 @@ Reiss, R.-D. and Thomas, M., *Statistical Analysis of Extreme Values from
 Insurance, Finance, Hydrology and Other Fields*, Basel: Birkhauser Verlag,
 2001.
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ mu, beta = 0, 0.1  location and scale
@@ -619,7 +619,7 @@ and compare to a Gaussian:
               linewidth=2, color='g')
      $ plt.show()
 
-##hypergeometric
+## hypergeometric
 randomkit.hypergeometric([output], ngood, nbad, nsample)
 
 Draw samples from a Hypergeometric distribution.
@@ -629,7 +629,7 @@ parameters, ngood (ways to make a good selection), nbad (ways to make
 a bad selection), and nsample = number of items sampled, which is less
 than or equal to the sum ngood + nbad.
 
-####Parameters
+#### Parameters
 * ngood : int or array_like
 Number of ways to make a good selection.  Must be nonnegative.
 * nbad : int or array_like
@@ -641,15 +641,15 @@ Number of items sampled.  Must be at least 1 and at most
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * samples : ndarray or scalar
 The values are all integers in  [0, n].
 
-####See Also
+#### See Also
 * scipy.stats.distributions.hypergeom : probability density function,
 distribution or cumulative density function, etc.
 
-####Notes
+#### Notes
 The probability density for the Hypergeometric distribution is
 
 $$ P(x) = \frac{\binom{m}{n}\binom{N-m}{n-x}}{\binom{N}{n}},$$
@@ -670,7 +670,7 @@ replacement, whereas in the Binomial case samples are drawn with
 replacement (or the sample space is infinite). As the sample space
 becomes large, this distribution approaches the Binomial.
 
-####References
+#### References
 1. Lentner, Marvin, "Elementary Applied Statistics", Bogden
 and Quigley, 1972.
 2. Weisstein, Eric W. "Hypergeometric Distribution." From
@@ -679,7 +679,7 @@ http://mathworld.wolfram.com/HypergeometricDistribution.html
 3. Wikipedia, "Hypergeometric-distribution",
 http://en.wikipedia.org/wiki/Hypergeometric-distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ ngood, nbad, nsamp = 100, 2, 10
@@ -696,7 +696,7 @@ If you pull 15 marbles at random, how likely is it that
      $ sum(s>=12)/100000. + sum(s<=3)/100000.
    answer = 0.003      pretty unlikely!
 
-##laplace
+## laplace
 randomkit.laplace([output], loc, scale)
 
 Draw samples from the Laplace or double exponential distribution with
@@ -707,13 +707,13 @@ but is sharper at the peak and has fatter tails. It represents the
 difference between two independent, identically distributed exponential
 random variables.
 
-####Parameters
+#### Parameters
 * loc : float
 The position, \\(\mu\\), of the distribution peak.
 * scale : float
 \\(\lambda\\), the exponential decay.
 
-####Notes
+#### Notes
 It has the probability density function
 
 $$ f(x; \mu, \lambda) = \frac{1}{2\lambda}
@@ -726,7 +726,7 @@ Economics and Health sciences, this distribution seems to model the data
 better than the standard Gaussian distribution
 
 
-####References
+#### References
 1. Abramowitz, M. and Stegun, I. A. (Eds.). Handbook of Mathematical
 Functions with Formulas, Graphs, and Mathematical Tables, 9th
 printing.  New York: Dover, 1972.
@@ -742,7 +742,7 @@ http://mathworld.wolfram.com/LaplaceDistribution.html
 4. Wikipedia, "Laplace distribution",
 http://en.wikipedia.org/wiki/Laplace_distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution
 
      $ loc, scale = 0., 1.
@@ -765,7 +765,7 @@ Plot Gaussian for comparison:
           np.exp( - (x - loc)**2 / (2 * scale**2) ))
      $ plt.plot(x,g)
 
-##logistic
+## logistic
 randomkit.logistic([output], loc, scale)
 
 Draw samples from a Logistic distribution.
@@ -773,7 +773,7 @@ Draw samples from a Logistic distribution.
 Samples are drawn from a Logistic distribution with specified
 parameters, loc (location or mean, also median), and scale (>0).
 
-####Parameters
+#### Parameters
 * loc : float
 
 * scale : float > 0.
@@ -782,15 +782,15 @@ parameters, loc (location or mean, also median), and scale (>0).
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * samples : {ndarray, scalar}
 where the values are all integers in  [0, n].
 
-####See Also
+#### See Also
 * scipy.stats.distributions.logistic : probability density function,
 distribution or cumulative density function, etc.
 
-####Notes
+#### Notes
 The probability density for the Logistic distribution is
 
 $$ P(x) = P(x) = \frac{e^{-(x-\mu)/s}}{s(1+e^{-(x-\mu)/s})^2},$$
@@ -813,7 +813,7 @@ http://mathworld.wolfram.com/LogisticDistribution.html
 3. Wikipedia, "Logistic-distribution",
 http://en.wikipedia.org/wiki/Logistic-distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ loc, scale = 10, 1
@@ -829,7 +829,7 @@ Draw samples from the distribution:
      logist(bins, loc, scale).max())
      $ plt.show()
 
-##lognormal
+## lognormal
 randomkit.lognormal([output], mean, sigma)
 
 Return samples drawn from a log-normal distribution.
@@ -839,7 +839,7 @@ standard deviation, and array shape.  Note that the mean and standard
 deviation are not the values for the distribution itself, but of the
 underlying normal distribution it is derived from.
 
-####Parameters
+#### Parameters
 * mean : float
 Mean value of the underlying normal distribution
 * sigma : float, > 0.
@@ -848,16 +848,16 @@ Standard deviation of the underlying normal distribution
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * samples : ndarray or float
 The desired samples. An array of the same shape as `size` if given,
 if `size` is None a float is returned.
 
-####See Also
+#### See Also
 * scipy.stats.lognorm : probability density function, distribution,
 cumulative density function, etc.
 
-####Notes
+#### Notes
 A variable `x` has a log-normal distribution if `log(x)` is normally
 distributed.  The probability density function for the log-normal
 distribution is:
@@ -873,7 +873,7 @@ the same way that a normal distribution results if the variable is the
 *sum* of a large number of independent, identically-distributed
 variables.
 
-####References
+#### References
 Limpert, E., Stahel, W. A., and Abbt, M., "Log-normal Distributions
 across the Sciences: Keys and Clues," *BioScience*, Vol. 51, No. 5,
 May, 2001.  http://stat.ethz.ch/~stahel/lognormal/bioscience.pdf
@@ -881,7 +881,7 @@ May, 2001.  http://stat.ethz.ch/~stahel/lognormal/bioscience.pdf
 Reiss, R.D. and Thomas, M., *Statistical Analysis of Extreme Values*,
 Basel: Birkhauser Verlag, 2001, pp. 31-32.
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ mu, sigma = 3., 1.  mean and standard deviation
@@ -927,7 +927,7 @@ distribution can be fit well by a log-normal probability density function.
      $ plt.plot(x, pdf, color='r', linewidth=2)
      $ plt.show()
 
-##logseries
+## logseries
 randomkit.logseries([output], p)
 
 Draw samples from a Logarithmic Series distribution.
@@ -935,7 +935,7 @@ Draw samples from a Logarithmic Series distribution.
 Samples are drawn from a Log Series distribution with specified
 parameter, p (probability, 0 < p < 1).
 
-####Parameters
+#### Parameters
 * loc : float
 
 * scale : float > 0.
@@ -944,15 +944,15 @@ parameter, p (probability, 0 < p < 1).
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * samples : {ndarray, scalar}
 where the values are all integers in  [0, n].
 
-####See Also
+#### See Also
 * scipy.stats.distributions.logser : probability density function,
 distribution or cumulative density function, etc.
 
-####Notes
+#### Notes
 The probability density for the Log Series distribution is
 
 $$ P(k) = \frac{-p^k}{k \ln(1-p)},$$
@@ -964,7 +964,7 @@ richness and occurrence, first proposed by Fisher, Corbet, and
 Williams in 1943 [2].  It may also be used to model the numbers of
 occupants seen in cars [3].
 
-####References
+#### References
 1. Buzas, Martin A.; Culver, Stephen J.,  Understanding regional
 species diversity through the log series distribution of
 occurrences: BIODIVERSITY RESEARCH Diversity & Distributions,
@@ -978,7 +978,7 @@ Data Sets, CRC Press, 1994.
 4. Wikipedia, "Logarithmic-distribution",
 http://en.wikipedia.org/wiki/Logarithmic-distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ a = .6
@@ -996,7 +996,7 @@ logseries(bins, a).max(), 'r')
 
      $ plt.show()
 
-##multivariate_normal
+## multivariate_normal
 randomkit.multivariate_normal([output], mean, cov[])
 
 Draw random samples from a multivariate normal distribution.
@@ -1008,7 +1008,7 @@ covariance matrix.  These parameters are analogous to the mean
 (average or "center") and variance (standard deviation, or "width,"
 squared) of the one-dimensional normal distribution.
 
-####Parameters
+#### Parameters
 * mean : 1-D array_like, of length N
 Mean of the N-dimensional distribution.
 * cov : 2-D array_like, of shape (N, N)
@@ -1020,7 +1020,7 @@ generated, and packed in an `m`-by-`n`-by-`k` arrangement.  Because
 each sample is `N`-dimensional, the output shape is ``(m,n,k,N)``.
 If no shape is specified, a single (`N`-D) sample is returned.
 
-####Returns
+#### Returns
 * out : ndarray
 The drawn samples, of shape *size*, if that was provided.  If not,
 the shape is ``(N,)``.
@@ -1028,7 +1028,7 @@ the shape is ``(N,)``.
 In other words, each entry ``out[i,j,...,:]`` is an N-dimensional
 value drawn from the distribution.
 
-####Notes
+#### Notes
 The mean is a coordinate in N-dimensional space, which represents the
 location where samples are most likely to be generated.  This is
 analogous to the peak of the bell curve for the one-dimensional or
@@ -1044,7 +1044,7 @@ The element \\(C_{ii}\\) is the variance of \\(x_i\\) (i.e. its
 Instead of specifying the full covariance matrix, popular
 approximations include:
 
-####- Spherical covariance (*cov* is a multiple of the identity matrix) Diagonal covariance (*cov* has non-negative elements, and only on
+#### - Spherical covariance (*cov* is a multiple of the identity matrix) Diagonal covariance (*cov* has non-negative elements, and only on
 the diagonal)
 
 This geometrical property can be seen in two dimensions by plotting
@@ -1061,14 +1061,14 @@ generated data-points:
 
 Note that the covariance matrix must be non-negative definite.
 
-####References
+#### References
 Papoulis, A., *Probability, Random Variables, and Stochastic Processes*,
 3rd ed., New York: McGraw-Hill, 1991.
 
 Duda, R. O., Hart, P. E., and Stork, D. G., *Pattern Classification*,
 2nd ed., New York: Wiley, 2001.
 
-####Examples
+#### Examples
 
      $ mean = (1,2)
      $ cov = [[1,0],[1,0]]
@@ -1084,7 +1084,7 @@ standard deviation:
 
 [True, True]
 
-##negative_binomial
+## negative_binomial
 randomkit.negative_binomial([output], n, p)
 
 Draw samples from a negative_binomial distribution.
@@ -1093,7 +1093,7 @@ Samples are drawn from a negative_Binomial distribution with specified
 parameters, `n` trials and `p` probability of success where `n` is an
 integer > 0 and `p` is in the interval [0, 1].
 
-####Parameters
+#### Parameters
 * n : int
 Parameter, > 0.
 * p : float
@@ -1102,11 +1102,11 @@ Parameter, >= 0 and <=1.
 Output shape. If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * samples : int or ndarray of ints
 Drawn samples.
 
-####Notes
+#### Notes
 The probability density for the Negative Binomial distribution is
 
 $$ P(N;n,p) = \binom{N+n-1}{n-1}p^{n}(1-p)^{N},$$
@@ -1121,14 +1121,14 @@ If one throws a die repeatedly until the third time a "1" appears, then the
 probability distribution of the number of non-"1"s that appear before the
 third "1" is a negative binomial distribution.
 
-####References
+#### References
 1. Weisstein, Eric W. "Negative Binomial Distribution." From
 MathWorld--A Wolfram Web Resource.
 http://mathworld.wolfram.com/NegativeBinomialDistribution.html
 2. Wikipedia, "Negative binomial distribution",
 http://en.wikipedia.org/wiki/Negative_binomial_distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
 A real world example. A company drills wild-cat oil exploration wells, each
@@ -1142,7 +1142,7 @@ etc.?
         probability = sum(s<i) / 100000.
         print i, "wells drilled, probability of one success =", probability
 
-##noncentral_chisquare
+## noncentral_chisquare
 randomkit.noncentral_chisquare([output], df, nonc)
 
 Draw samples from a noncentral chi-square distribution.
@@ -1150,7 +1150,7 @@ Draw samples from a noncentral chi-square distribution.
 The noncentral \\(\chi^2\\) distribution is a generalisation of
 the \\(\chi^2\\) distribution.
 
-####Parameters
+#### Parameters
 * df : int
 Degrees of freedom, should be >= 1.
 * nonc : float
@@ -1158,7 +1158,7 @@ Non-centrality, should be > 0.
 * size : int or tuple of ints
 Shape of the output.
 
-####Notes
+#### Notes
 The probability density function for the noncentral Chi-square distribution
 is
 
@@ -1171,14 +1171,14 @@ In Delhi (2007), it is noted that the noncentral chi-square is useful in
 bombing and coverage problems, the probability of killing the point target
 given by the noncentral chi-squared distribution.
 
-####References
+#### References
 1. Delhi, M.S. Holla, "On a noncentral chi-square distribution in the
 analysis of weapon systems effectiveness", Metrika, Volume 15,
 Number 1 / December, 1970.
 2. Wikipedia, "Noncentral chi-square distribution"
 http://en.wikipedia.org/wiki/Noncentral_chi-square_distribution
 
-####Examples
+#### Examples
 Draw values from the distribution and plot the histogram
 
      $ import matplotlib.pyplot as plt
@@ -1207,7 +1207,7 @@ distribution.
                        bins=200, normed=True)
      $ plt.show()
 
-##noncentral_f
+## noncentral_f
 randomkit.noncentral_f([output], dfnum, dfden, nonc)
 
 Draw samples from the noncentral F distribution.
@@ -1217,7 +1217,7 @@ Samples are drawn from an F distribution with specified parameters,
 freedom in denominator), where both parameters > 1.
 `nonc` is the non-centrality parameter.
 
-####Parameters
+#### Parameters
 * dfnum : int
 Parameter, should be > 1.
 * dfden : int
@@ -1228,25 +1228,25 @@ Parameter, should be >= 0.
 Output shape. If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * samples : scalar or ndarray
 Drawn samples.
 
-####Notes
+#### Notes
 When calculating the power of an experiment (power = probability of
 rejecting the null hypothesis when a specific alternative is true) the
 non-central F statistic becomes important.  When the null hypothesis is
 true, the F statistic follows a central F distribution. When the null
 hypothesis is not true, then it follows a non-central F statistic.
 
-####References
+#### References
 Weisstein, Eric W. "Noncentral F-Distribution." From MathWorld--A Wolfram
 Web Resource.  http://mathworld.wolfram.com/NoncentralF-Distribution.html
 
 Wikipedia, "Noncentral F distribution",
 http://en.wikipedia.org/wiki/Noncentral_F-distribution
 
-####Examples
+#### Examples
 In a study, testing for a specific alternative to the null hypothesis
 requires use of the Noncentral F distribution. We need to calculate the
 area in the tail of the distribution that exceeds the value of the F
@@ -1264,7 +1264,7 @@ distributions for comparison.
      $ plt.plot(NF[1][1:], NF[0])
      $ plt.show()
 
-##normal
+## normal
 randomkit.normal([output], loc, scale)
 
 Draw random samples from a normal (Gaussian) distribution.
@@ -1279,7 +1279,7 @@ describes the commonly occurring distribution of samples influenced
 by a large number of tiny, random disturbances, each with its own
 unique distribution [2].
 
-####Parameters
+#### Parameters
 * loc : float
 Mean ("centre") of the distribution.
 * scale : float
@@ -1288,11 +1288,11 @@ Standard deviation (spread or "width") of the distribution.
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####See Also
+#### See Also
 * scipy.stats.distributions.norm : probability density function,
 distribution or cumulative density function, etc.
 
-####Notes
+#### Notes
 The probability density for the Gaussian distribution is
 
 $$ p(x) = \frac{1}{\sqrt{ 2 \pi \sigma^2 }}
@@ -1308,14 +1308,14 @@ the standard deviation (the function reaches 0.607 times its maximum at
 `numpy.random.normal` is more likely to return samples lying close to the
 mean, rather than those far away.
 
-####References
+#### References
 1. Wikipedia, "Normal distribution",
 http://en.wikipedia.org/wiki/Normal_distribution
 2. P. R. Peebles Jr., "Central Limit Theorem" in "Probability, Random
 Variables and Random Signal Principles", 4th ed., 2001,
 pp. 51, 51, 125.
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ mu, sigma = 0, 0.1  mean and standard deviation
@@ -1342,7 +1342,7 @@ the probability density function:
               linewidth=2, color='r')
      $ plt.show()
 
-##pareto
+## pareto
 randomkit.pareto([output], a)
 
 Draw samples from a Pareto II or Lomax distribution with specified shape.
@@ -1361,20 +1361,20 @@ It is also known as the "80-20 rule".  In this distribution, 80 percent of
 the weights are in the lowest 20 percent of the range, while the other 20
 percent fill the remaining 80 percent of the range.
 
-####Parameters
+#### Parameters
 * shape : float, > 0.
 Shape of the distribution.
 * size : tuple of ints
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####See Also
+#### See Also
 * scipy.stats.distributions.lomax.pdf : probability density function,
 distribution or cumulative density function, etc.
 * scipy.stats.distributions.genpareto.pdf : probability density function,
 distribution or cumulative density function, etc.
 
-####Notes
+#### Notes
 The probability density for the Pareto distribution is
 
 $$ p(x) = \frac{am^a}{x^{a+1}}$$
@@ -1391,7 +1391,7 @@ including the download frequency for projects in Sourceforge [1].  It is
 one of the so-called "fat-tailed" distributions.
 
 
-####References
+#### References
 1. Francis Hunt and Paul Johnson, On the Pareto Distribution of
 Sourceforge projects.
 2. Pareto, V. (1896). Course of Political Economy. Lausanne.
@@ -1400,7 +1400,7 @@ Values, Birkhauser Verlag, Basel, pp 23-30.
 4. Wikipedia, "Pareto distribution",
 http://en.wikipedia.org/wiki/Pareto_distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ a, m = 3., 1.  shape and mode
@@ -1416,7 +1416,7 @@ the probability density function:
      $ plt.plot(bins, max(count)*fit/max(fit),linewidth=2, color='r')
      $ plt.show()
 
-##poisson
+## poisson
 randomkit.poisson([output], lam)
 
 Draw samples from a Poisson distribution.
@@ -1424,14 +1424,14 @@ Draw samples from a Poisson distribution.
 The Poisson distribution is the limit of the Binomial
 distribution for large N.
 
-####Parameters
+#### Parameters
 * lam : float
 Expectation of interval, should be >= 0.
 * size : int or tuple of ints, optional
 Output shape. If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Notes
+#### Notes
 The Poisson distribution
 
 $$ f(k; \lambda)=\frac{\lambda^k e^{-\lambda}}{k!}$$
@@ -1444,13 +1444,13 @@ Because the output is limited to the range of the C long type, a
 ValueError is raised when `lam` is within 10 sigma of the maximum
 representable value.
 
-####References
+#### References
 1. Weisstein, Eric W. "Poisson Distribution." From MathWorld--A Wolfram
 Web Resource. http://mathworld.wolfram.com/PoissonDistribution.html
 2. Wikipedia, "Poisson distribution",
 http://en.wikipedia.org/wiki/Poisson_distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ import numpy as np
@@ -1463,7 +1463,7 @@ Display histogram of the sample:
      $ count, bins, ignored = plt.hist(s, 14, normed=True)
      $ plt.show()
 
-##power
+## power
 randomkit.power([output], a)
 
 Draws samples in [0, 1] from a power distribution with positive
@@ -1471,22 +1471,22 @@ exponent a - 1.
 
 Also known as the power function distribution.
 
-####Parameters
+#### Parameters
 * a : float
 parameter, > 0
 * size : tuple of ints
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * samples : {ndarray, scalar}
 The returned samples lie in [0, 1].
 
-####Raises
+#### Raises
 ValueError
 If a<1.
 
-####Notes
+#### Notes
 The probability density function is
 
 $$ P(x; a) = ax^{a-1}, 0 \le x \le 1, a>0.$$
@@ -1498,7 +1498,7 @@ distribution.
 It is used, for example, in modeling the over-reporting of insurance
 claims.
 
-####References
+#### References
 1. Christian Kleiber, Samuel Kotz, "Statistical size distributions
 in economics and actuarial sciences", Wiley, 2003.
 2. Heckert, N. A. and Filliben, James J. (2003). NIST Handbook 148:
@@ -1507,7 +1507,7 @@ Functions", National Institute of Standards and Technology Handbook
 Series, June 2003.
 http://www.itl.nist.gov/div898/software/dataplot/refman2/auxillar/powpdf.pdf
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ a = 5.  shape
@@ -1553,7 +1553,7 @@ Compare the power function distribution to the inverse of the Pareto.
      $ plt.plot(xx,powpdf,'r-')
      $ plt.title('inverse of stats.pareto(5)')
 
-##randint
+## randint
 randomkit.randint(low, high)
 
 Return random integers from `low` (inclusive) to `high` (inclusive).
@@ -1564,22 +1564,22 @@ closed interval [`low`, `high`].
 Note: This function behaves differently from the numpy version shown in
 examples.
 
-####Parameters
+#### Parameters
 * low : int
 Lowest (signed) integer to be drawn from the distribution.
 * high : int
 Largest (signed) integer to be drawn from the distribution.
 
-####Returns
+#### Returns
 * int
 
-####See Also
+#### See Also
 * random.random_integers : similar to `randint`, only for the closed
 interval [`low`, `high`], and 1 is the lowest value if `high` is
 omitted. In particular, this other one is the one to use to generate
 uniformly distributed discrete non-integers.
 
-####Examples
+#### Examples
 
      $ np.random.randint(2, size=10)
 
@@ -1596,7 +1596,7 @@ Generate a 2 x 4 array of ints between 0 and 4, inclusive:
 array([[4, 0, 2, 1],
 [3, 2, 2, 0]])
 
-##random
+## random
 randomkit.random_sample([output], )
 
 Return random floats in the half-open interval [0.0, 1.0).
@@ -1639,7 +1639,7 @@ array([[-3.99149989, -0.52338984],
 [-2.99091858, -0.79479508],
 [-1.23204345, -1.75224494]])
 
-##random_sample
+## random_sample
 randomkit.random_sample([output], )
 
 Return random floats in the half-open interval [0.0, 1.0).
@@ -1650,17 +1650,17 @@ the output of `random_sample` by `(b-a)` and add `a`::
 
 (b - a) * random_sample() + a
 
-####Parameters
+#### Parameters
 * size : int or tuple of ints, optional
 Defines the shape of the returned array of random floats. If None
 (the default), returns a single float.
 
-####Returns
+#### Returns
 * out : float or ndarray of floats
 Array of random floats of shape `size` (unless ``size=None``, in which
 case a single float is returned).
 
-####Examples
+#### Examples
 
      $ np.random.random_sample()
 
@@ -1682,7 +1682,7 @@ array([[-3.99149989, -0.52338984],
 [-2.99091858, -0.79479508],
 [-1.23204345, -1.75224494]])
 
-##rayleigh
+## rayleigh
 randomkit.rayleigh([output], scale)
 
 Draw samples from a Rayleigh distribution.
@@ -1690,14 +1690,14 @@ Draw samples from a Rayleigh distribution.
 The \\(\chi\\) and Weibull distributions are generalizations of the
 Rayleigh.
 
-####Parameters
+#### Parameters
 * scale : scalar
 Scale, also equals the mode. Should be >= 0.
 * size : int or tuple of ints, optional
 Shape of the output. Default is None, in which case a single
 value is returned.
 
-####Notes
+#### Notes
 The probability density function for the Rayleigh distribution is
 
 $$ P(x;scale) = \frac{x}{scale^2}e^{\frac{-x^2}{2 \cdotp scale^2}}$$
@@ -1707,13 +1707,13 @@ both gaussian variables, then the vector wind velocity forms a Rayleigh
 distribution. The Rayleigh distribution is used to model the expected
 output from wind turbines.
 
-####References
+#### References
 1. Brighton Webs Ltd., Rayleigh Distribution,
 http://www.brighton-webs.co.uk/distributions/rayleigh.asp
 2. Wikipedia, "Rayleigh distribution"
 http://en.wikipedia.org/wiki/Rayleigh_distribution
 
-####Examples
+#### Examples
 Draw values from the distribution and plot the histogram
 
      $ values = hist(np.random.rayleigh(3, 100000), bins=200, normed=True)
@@ -1734,22 +1734,22 @@ The percentage of waves larger than 3 meters is:
 
 0.087300000000000003
 
-##standard_cauchy
+## standard_cauchy
 randomkit.standard_cauchy([output], )
 
 Standard Cauchy distribution with mode = 0.
 
 Also known as the Lorentz distribution.
 
-####Parameters
+#### Parameters
 * size : int or tuple of ints
 Shape of the output.
 
-####Returns
+#### Returns
 * samples : ndarray or scalar
 The drawn samples.
 
-####Notes
+#### Notes
 The probability density function for the full Cauchy distribution is
 
 $$ P(x; x_0, \gamma) = \frac{1}{\pi \gamma \bigl[ 1+
@@ -1768,7 +1768,7 @@ tests perform on data from a Cauchy distribution is a good indicator of
 their sensitivity to a heavy-tailed distribution, since the Cauchy looks
 very much like a Gaussian distribution, but with heavier tails.
 
-####References
+#### References
 1. NIST/SEMATECH e-Handbook of Statistical Methods, "Cauchy
 Distribution",
 http://www.itl.nist.gov/div898/handbook/eda/section3/eda3663.htm
@@ -1778,7 +1778,7 @@ http://mathworld.wolfram.com/CauchyDistribution.html
 3. Wikipedia, "Cauchy distribution"
 http://en.wikipedia.org/wiki/Cauchy_distribution
 
-####Examples
+#### Examples
 Draw samples and plot the distribution:
 
      $ s = np.random.standard_cauchy(1000000)
@@ -1786,7 +1786,7 @@ Draw samples and plot the distribution:
      $ plt.hist(s, bins=100)
      $ plt.show()
 
-##standard_exponential
+## standard_exponential
 randomkit.standard_exponential([output], )
 
 Draw samples from the standard exponential distribution.
@@ -1794,20 +1794,20 @@ Draw samples from the standard exponential distribution.
 `standard_exponential` is identical to the exponential distribution
 with a scale parameter of 1.
 
-####Parameters
+#### Parameters
 * size : int or tuple of ints
 Shape of the output.
 
-####Returns
+#### Returns
 * out : float or ndarray
 Drawn samples.
 
-####Examples
+#### Examples
 Output a 3x8000 array:
 
      $ n = np.random.standard_exponential((3, 8000))
 
-##standard_gamma
+## standard_gamma
 randomkit.standard_gamma([output], shape)
 
 Draw samples from a Standard Gamma distribution.
@@ -1815,22 +1815,22 @@ Draw samples from a Standard Gamma distribution.
 Samples are drawn from a Gamma distribution with specified parameters,
 shape (sometimes designated "k") and scale=1.
 
-####Parameters
+#### Parameters
 * shape : float
 Parameter, should be > 0.
 * size : int or tuple of ints
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * samples : ndarray or scalar
 The drawn samples.
 
-####See Also
+#### See Also
 * scipy.stats.distributions.gamma : probability density function,
 distribution or cumulative density function, etc.
 
-####Notes
+#### Notes
 The probability density for the Gamma distribution is
 
 $$ p(x) = x^{k-1}\frac{e^{-x/\theta}}{\theta^k\Gamma(k)},$$
@@ -1842,14 +1842,14 @@ The Gamma distribution is often used to model the times to failure of
 electronic components, and arises naturally in processes for which the
 waiting times between Poisson distributed events are relevant.
 
-####References
+#### References
 1. Weisstein, Eric W. "Gamma Distribution." From MathWorld--A
 Wolfram Web Resource.
 http://mathworld.wolfram.com/GammaDistribution.html
 2. Wikipedia, "Gamma-distribution",
 http://en.wikipedia.org/wiki/Gamma-distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ shape, scale = 2., 1.  mean and width
@@ -1867,26 +1867,26 @@ the probability density function:
      $ plt.plot(bins, y, linewidth=2, color='r')
      $ plt.show()
 
-##standard_normal
+## standard_normal
 randomkit.standard_normal([output], )
 
 Returns samples from a Standard Normal distribution (mean=0, stdev=1).
 
-####Parameters
+#### Parameters
 * size : int or tuple of ints, optional
 Output shape. Default is None, in which case a single value is
 returned.
 
-####Returns
+#### Returns
 * out : float or ndarray
 Drawn samples.
 
-####Examples
+#### Examples
 
      $ s = np.random.standard_normal(8000)
      $ s
 
-####array([ 0.6888893 ,  0.78096262, -0.89086505, ...,  0.49876311, random0.38672696, -0.4685006 ])                               random
+#### array([ 0.6888893 ,  0.78096262, -0.89086505, ...,  0.49876311, random0.38672696, -0.4685006 ])                               random
 
      $ s.shape
 
@@ -1897,7 +1897,7 @@ Drawn samples.
 
 (3, 4, 2)
 
-##standard_t
+## standard_t
 randomkit.standard_t([output], df)
 
 Standard Student's t distribution with df degrees of freedom.
@@ -1906,18 +1906,18 @@ A special case of the hyperbolic distribution.
 As `df` gets large, the result resembles that of the standard normal
 distribution (`standard_normal`).
 
-####Parameters
+#### Parameters
 * df : int
 Degrees of freedom, should be > 0.
 * size : int or tuple of ints, optional
 Output shape. Default is None, in which case a single value is
 returned.
 
-####Returns
+#### Returns
 * samples : ndarray or scalar
 Drawn samples.
 
-####Notes
+#### Notes
 The probability density function for the t distribution is
 
 $$ P(x, df) = \frac{\Gamma(\frac{df+1}{2})}{\sqrt{\pi df}
@@ -1933,13 +1933,13 @@ Gisset while working for the Guinness Brewery in Dublin. Due to proprietary
 issues, he had to publish under a pseudonym, and so he used the name
 Student.
 
-####References
+#### References
 1. Dalgaard, Peter, "Introductory Statistics With R",
 Springer, 2002.
 2. Wikipedia, "Student's t-distribution"
 http://en.wikipedia.org/wiki/Student's_t-distribution
 
-####Examples
+#### Examples
 From Dalgaard page 83 [1], suppose the daily energy intake for 11
 women in Kj is:
 
@@ -1980,7 +1980,7 @@ statistic appear?
 So the p-value is about 0.009, which says the null hypothesis has a
 probability of about 99% of being true.
 
-##triangular
+## triangular
 randomkit.triangular([output], left, mode, right)
 
 Draw samples from the triangular distribution.
@@ -1989,7 +1989,7 @@ The triangular distribution is a continuous probability distribution with
 lower limit left, peak at mode, and upper limit right. Unlike the other
 distributions, these parameters directly define the shape of the pdf.
 
-####Parameters
+#### Parameters
 * left : scalar
 Lower limit.
 * mode : scalar
@@ -2001,11 +2001,11 @@ Upper limit, should be larger than `left`.
 Output shape. Default is None, in which case a single value is
 returned.
 
-####Returns
+#### Returns
 * samples : ndarray or scalar
 The returned samples all lie in the interval [left, right].
 
-####Notes
+#### Notes
 The probability density function for the Triangular distribution is
 
 $$ P(x;l, m, r) = \begin{cases}
@@ -2018,11 +2018,11 @@ The triangular distribution is often used in ill-defined problems where the
 underlying distribution is not known, but some knowledge of the limits and
 mode exists. Often it is used in simulations.
 
-####References
+#### References
 1. Wikipedia, "Triangular distribution"
 http://en.wikipedia.org/wiki/Triangular_distribution
 
-####Examples
+#### Examples
 Draw values from the distribution and plot the histogram:
 
      $ import matplotlib.pyplot as plt
@@ -2030,7 +2030,7 @@ Draw values from the distribution and plot the histogram:
                   normed=True)
      $ plt.show()
 
-##uniform
+## uniform
 randomkit.uniform([output], low, high)
 
 Draw samples from a uniform distribution.
@@ -2040,7 +2040,7 @@ Samples are uniformly distributed over the half-open interval
 any value within the given interval is equally likely to be drawn
 by `uniform`.
 
-####Parameters
+#### Parameters
 * low : float, optional
 Lower boundary of the output interval.  All values generated will be
 greater than or equal to low.  The default value is 0.
@@ -2052,11 +2052,11 @@ Shape of output.  If the given size is, for example, (m,n,k),
 m*n*k samples are generated.  If no shape is specified, a single sample
 is returned.
 
-####Returns
+#### Returns
 * out : ndarray
 Drawn samples, with shape `size`.
 
-####See Also
+#### See Also
 * randint : Discrete uniform distribution, yielding integers.
 * random_integers : Discrete uniform distribution over the closed
 interval ``[low, high]``.
@@ -2066,14 +2066,14 @@ interval ``[low, high]``.
 ``rand(2,2)`` would generate a 2-by-2 array of floats,
 uniformly distributed over ``[0, 1)``.
 
-####Notes
+#### Notes
 The probability density function of the uniform distribution is
 
 $$ p(x) = \frac{1}{b - a}$$
 
 anywhere within the interval ``[a, b)``, and zero elsewhere.
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ s = np.random.uniform(-1,0,1000)
@@ -2097,7 +2097,7 @@ probability density function:
      $ plt.plot(bins, np.ones_like(bins), linewidth=2, color='r')
      $ plt.show()
 
-##vonmises
+## vonmises
 randomkit.vonmises([output], mu, kappa)
 
 Draw samples from a von Mises distribution.
@@ -2110,7 +2110,7 @@ distribution) is a continuous probability distribution on the unit
 circle.  It may be thought of as the circular analogue of the normal
 distribution.
 
-####Parameters
+#### Parameters
 * mu : float
 Mode ("center") of the distribution.
 * kappa : float
@@ -2119,15 +2119,15 @@ Dispersion of the distribution, has to be >=0.
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####Returns
+#### Returns
 * samples : scalar or ndarray
 The returned samples, which are in the interval [-pi, pi].
 
-####See Also
+#### See Also
 * scipy.stats.distributions.vonmises : probability density function,
 distribution, or cumulative density function, etc.
 
-####Notes
+#### Notes
 The probability density for the von Mises distribution is
 
 $$ p(x) = \frac{e^{\kappa cos(x-\mu)}}{2\pi I_0(\kappa)},$$
@@ -2141,14 +2141,14 @@ States in 1939 and became a professor at Harvard.  He worked in
 probability theory, aerodynamics, fluid mechanics, and philosophy of
 science.
 
-####References
+#### References
 Abramowitz, M. and Stegun, I. A. (ed.), *Handbook of Mathematical
 Functions*, New York: Dover, 1965.
 
 von Mises, R., *Mathematical Theory of Probability and Statistics*,
 New York: Academic Press, 1964.
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ mu, kappa = 0.0, 4.0  mean and dispersion
@@ -2166,7 +2166,7 @@ the probability density function:
      $ plt.plot(x, y/max(y), linewidth=2, color='r')
      $ plt.show()
 
-##wald
+## wald
 randomkit.wald([output], mean, scale)
 
 Draw samples from a Wald, or Inverse Gaussian, distribution.
@@ -2182,7 +2182,7 @@ Brownian motion. In 1956 M.C.K. Tweedie used the name Inverse Gaussian
 because there is an inverse relationship between the time to cover a unit
 distance and distance covered in unit time.
 
-####Parameters
+#### Parameters
 * mean : scalar
 Distribution mean, should be > 0.
 * scale : scalar
@@ -2191,11 +2191,11 @@ Scale parameter, should be >= 0.
 Output shape. Default is None, in which case a single value is
 returned.
 
-####Returns
+#### Returns
 * samples : ndarray or scalar
 Drawn sample, all greater than zero.
 
-####Notes
+#### Notes
 The probability density function for the Wald distribution is
 
 $$ P(x;mean,scale) = \sqrt{\frac{scale}{2\pi x^3}}e^
@@ -2206,7 +2206,7 @@ to model Brownian Motion. It is also a competitor to the Weibull for use in
 reliability modeling and modeling stock returns and interest rate
 processes.
 
-####References
+#### References
 1. Brighton Webs Ltd., Wald Distribution,
 http://www.brighton-webs.co.uk/distributions/wald.asp
 2. Chhikara, Raj S., and Folks, J. Leroy, "The Inverse Gaussian
@@ -2215,14 +2215,14 @@ http://www.brighton-webs.co.uk/distributions/wald.asp
 3. Wikipedia, "Wald distribution"
 http://en.wikipedia.org/wiki/Wald_distribution
 
-####Examples
+#### Examples
 Draw values from the distribution and plot the histogram:
 
      $ import matplotlib.pyplot as plt
      $ h = plt.hist(np.random.wald(3, 2, 100000), bins=200, normed=True)
      $ plt.show()
 
-##weibull
+## weibull
 randomkit.weibull([output], a)
 
 Weibull distribution.
@@ -2237,20 +2237,20 @@ Here, U is drawn from the uniform distribution over (0,1].
 The more common 2-parameter Weibull, including a scale parameter
 \\(\lambda\\) is just \\(X = \lambda(-ln(U))^{1/a}\\).
 
-####Parameters
+#### Parameters
 * a : float
 Shape of the distribution.
 * size : tuple of ints
 Output shape.  If the given shape is, e.g., ``(m, n, k)``, then
 ``m * n * k`` samples are drawn.
 
-####See Also
+#### See Also
 scipy.stats.distributions.weibull_max
 scipy.stats.distributions.weibull_min
 scipy.stats.distributions.genextreme
 gumbel
 
-####Notes
+#### Notes
 The Weibull (or Type III asymptotic extreme value distribution for smallest
 values, SEV Type III, or Rosin-Rammler distribution) is one of a class of
 Generalized Extreme Value (GEV) distributions used in modeling extreme
@@ -2269,7 +2269,7 @@ The function has its peak (the mode) at
 When ``a = 1``, the Weibull distribution reduces to the exponential
 distribution.
 
-####References
+#### References
 1. Waloddi Weibull, Professor, Royal Technical University, Stockholm,
 1939 "A Statistical Theory Of The Strength Of Materials",
 Ingeniorsvetenskapsakademiens Handlingar Nr 151, 1939,
@@ -2279,7 +2279,7 @@ Applicability",  Journal Of Applied Mechanics ASME Paper.
 3. Wikipedia, "Weibull distribution",
 http://en.wikipedia.org/wiki/Weibull_distribution
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ a = 5.  shape
@@ -2300,7 +2300,7 @@ the probability density function:
      $ plt.plot(x, weib(x, 1., 5.)*scale)
      $ plt.show()
 
-##zipf
+## zipf
 randomkit.zipf([output], a)
 
 Draw samples from a Zipf distribution.
@@ -2313,7 +2313,7 @@ continuous probability distribution that satisfies Zipf's law: the
 frequency of an item is inversely proportional to its rank in a
 frequency table.
 
-####Parameters
+#### Parameters
 * a : float > 1
 Distribution parameter.
 * size : int or tuple of int, optional
@@ -2323,15 +2323,15 @@ its result to providing a mono-tuple, i.e., a 1-D array of length
 *size* is returned.  The default is None, in which case a single
 scalar is returned.
 
-####Returns
+#### Returns
 * samples : scalar or ndarray
 The returned samples are greater than or equal to one.
 
-####See Also
+#### See Also
 * scipy.stats.distributions.zipf : probability density function,
 distribution, or cumulative density function, etc.
 
-####Notes
+#### Notes
 The probability density for the Zipf distribution is
 
 $$ p(x) = \frac{x^{-a}}{\zeta(a)},$$
@@ -2342,11 +2342,11 @@ It is named for the American linguist George Kingsley Zipf, who noted
 that the frequency of any word in a sample of a language is inversely
 proportional to its rank in the frequency table.
 
-####References
+#### References
 Zipf, G. K., *Selected Studies of the Principle of Relative Frequency
 in Language*, Cambridge, MA: Harvard Univ. Press, 1932.
 
-####Examples
+#### Examples
 Draw samples from the distribution:
 
      $ a = 2.  parameter
